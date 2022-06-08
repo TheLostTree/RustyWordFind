@@ -77,10 +77,9 @@ fn generate_processed()->HashMap<String, Vec<String>>{
         match vec {
             None=>{
                 dictionary.insert(output, vec![line.to_string()]);
-                
             },
-            Some(_)=>{
-                dictionary.get_mut(&output).unwrap().push(line.to_string());
+            Some(v)=>{
+                v.push(line.to_string());
             }
         }
     }
@@ -132,15 +131,10 @@ fn find_all(input: &String, dictionary: &HashMap<String, Vec<String>>)-> Vec<Str
     for string in subsquences {
         if string.len() < 3{ continue; } //the nyt doesnt want tiny words in their puzzle
 
-        let temp = dictionary.get(&string);
-
-
-        match temp {
-            Some(value)=>{
-                output.append(&mut value.to_owned());
-            },
-            None=>{}
+        if let Some(value) = dictionary.get(&string){
+            output.append(&mut value.to_owned());
         }
+
     }
 
 
